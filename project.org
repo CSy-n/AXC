@@ -1,0 +1,13 @@
+
+
+
+>#
+
+- "#!" - Initiated shell mode
+- Upon session end, the contents of a session are logged to a file.
+
+
+
+
+~ write_session_to_storage 
+~ create_session_banner

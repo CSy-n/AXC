@@ -1,6 +1,30 @@
 
 
 
+
+* Text Terminal
+
+- Send Message to user
+- Log Messages to file
+
+
+#>>>>
+
+USER:>
+a simple message
+USER:>
+ALTE:<
+a reply back
+USER:>
+
+
+
+
+
+
+
+
+
 >#
 
 - "#!" - Initiated shell mode

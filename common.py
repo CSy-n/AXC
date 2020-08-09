@@ -1,36 +1,43 @@
 from threading import Thread
 from time import sleep
 from os import _exit
+from utility import *
 
-class ReceiveLoop(Thread):
-    def __init__(self, sock):
+class Receiver(Thread):
+    def __init__(self, socket):
         Thread.__init__(self)
         self.setDaemon(True)
-        self.sock = sock
+        self.socket = socket
 
     def run(self):
         try:
             while True:
-                s = self.sock.recv(2048)
+                s = self.socket.recv(2048)
                 if len(s) == 0:
                     finish()
                     return
-                print(">: " + s.decode())
+
+                message = "<< \n" + s.decode()
+
+                print(message)
+                log_message(message)
         except:
             finish()
 
-class SendLoop(Thread):
-    def __init__(self, sock):
+class Sender(Thread):
+    def __init__(self, socket):
         Thread.__init__(self)
         self.setDaemon(True)
-        self.sock = sock
+        self.socket = socket
 
     def run(self):
         try: 
             while True:
-                print('> ')
+
+                print('>> ')
                 s = input()
-                sent = self.sock.send(s.encode())
+                log_message(s)
+                sent = self.socket.send(s.encode())
                 if sent == 0:
                     finish()
                     return
@@ -41,19 +48,25 @@ def finish():
     print("Connection terminated")
     _exit(0)
 
-def start_receive_loop(sock):
-    thr = ReceiveLoop(sock)
+def start_receive_loop(socket):
+    thr = Receiver(socket)
     thr.start()
     return thr
 
-def start_send_loop(sock):
-    thr = SendLoop(sock)
+def start_send_loop(socket):
+    thr = Sender(socket)
     thr.start()
     return thr
 
-def bidirectional(sock):
-    receive = start_receive_loop(sock)
-    send = start_send_loop(sock)
+def bidirectional(socket):
+    receive = start_receive_loop(socket)
+    send = start_send_loop(socket)
     receive.join()
     send.join()
 
+
+
+def log_message(text):
+    storage_append_to_file("logs/conversation.txt", text)
+
+    

@@ -42,3 +42,11 @@ length of sentence.
  + I tried 
 
 """  
+
+
+
+
+def storage_append_to_file(file_name, text):
+  with open(file_name, "a") as f:
+    f.write(text)
+

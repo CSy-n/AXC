@@ -4,10 +4,10 @@ from utility import *
 
 print_banner('SERVER STARTED')
 
-
+PORT = 31411
 
 server = socket(AF_INET, SOCK_STREAM)
-server.bind(('0.0.0.0', 31415))
+server.bind(('0.0.0.0', PORT))
 server.listen(5)
 
 print("Waiting for client ... ", end='')

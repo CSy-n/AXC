@@ -2,16 +2,16 @@ from threading import Thread
 from time import sleep
 from os import _exit
 
-class ReceiveLoop(Thread):
-    def __init__(self, sock):
+class Receiver(Thread):
+    def __init__(self, socket):
         Thread.__init__(self)
         self.setDaemon(True)
-        self.sock = sock
+        self.socket = socket
 
     def run(self):
         try:
             while True:
-                s = self.sock.recv(2048)
+                s = self.socket.recv(2048)
                 if len(s) == 0:
                     finish()
                     return
@@ -19,18 +19,18 @@ class ReceiveLoop(Thread):
         except:
             finish()
 
-class SendLoop(Thread):
-    def __init__(self, sock):
+class Sender(Thread):
+    def __init__(self, socket):
         Thread.__init__(self)
         self.setDaemon(True)
-        self.sock = sock
+        self.socket = socket
 
     def run(self):
         try: 
             while True:
                 print('> ')
                 s = input()
-                sent = self.sock.send(s.encode())
+                sent = self.socket.send(s.encode())
                 if sent == 0:
                     finish()
                     return
@@ -41,19 +41,19 @@ def finish():
     print("Connection terminated")
     _exit(0)
 
-def start_receive_loop(sock):
-    thr = ReceiveLoop(sock)
-    thr.start()
-    return thr
+def start_receive_loop(socket):
+    thread = Receiver(socket)
+    thread.start()
+    return thread
 
-def start_send_loop(sock):
-    thr = SendLoop(sock)
-    thr.start()
-    return thr
+def start_send_loop(socket):
+    thread = Sender(socket)
+    thread.start()
+    return thread
 
-def bidirectional(sock):
-    receive = start_receive_loop(sock)
-    send = start_send_loop(sock)
+def bidirectional(socket):
+    receive = start_receive_loop(socket)
+    send = start_send_loop(socket)
     receive.join()
     send.join()
 

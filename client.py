@@ -7,7 +7,6 @@ REMOTE_IP = 'localhost'
 PORT = 31415
 
 
-
 sock = socket(AF_INET, SOCK_STREAM)
 
 print("Connecting to server ... ", end='')

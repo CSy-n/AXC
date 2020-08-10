@@ -1,6 +1,7 @@
 from threading import Thread
 from time import sleep
 from os import _exit
+from utility import *
 
 class Receiver(Thread):
     def __init__(self, socket):
@@ -16,6 +17,11 @@ class Receiver(Thread):
                     finish()
                     return
                 print(">: " + s.decode())
+                message = "<< \n" + s.decode()
+
+                print(message)
+                log_message(message)
+
         except:
             finish()
 
@@ -28,8 +34,9 @@ class Sender(Thread):
     def run(self):
         try: 
             while True:
-                print('> ')
+                print('>> ')
                 s = input()
+                log_message(s)
                 sent = self.socket.send(s.encode())
                 if sent == 0:
                     finish()
@@ -56,4 +63,10 @@ def bidirectional(socket):
     send = start_send_loop(socket)
     receive.join()
     send.join()
+
+
+def log_message(text):
+    storage_append_to_file("logs/conversation.txt", text)
+
+    
 

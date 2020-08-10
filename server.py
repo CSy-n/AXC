@@ -9,7 +9,6 @@ PORT = 31415
 server = socket(AF_INET, SOCK_STREAM)
 
 
-
 # Bind Address, and listen
 server.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 server.bind(('0.0.0.0', PORT))

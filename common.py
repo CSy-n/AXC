@@ -88,7 +88,7 @@ def handle_command(msg):
     # if it starts with "!"
     if msg.startswith("!file"):
         file_path = dialog_query_file()
-        print("[Opening File] ... " end="")
+        print("[Opening File] ... ", end="")
         print(f"|{file_path}|")
 
 class Server:

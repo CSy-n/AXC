@@ -1,5 +1,5 @@
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
-from common import bidirectional
+from common import handle_connection
 from utility import * 
 
 print_banner('SERVER STARTED')
@@ -15,8 +15,8 @@ server.bind(('0.0.0.0', PORT))
 server.listen(5)
 
 print("Waiting for client ... ", end='')
-(sock, addr) = server.accept()
+(connection, addr) = server.accept()
 print("Client connected")
 
-bidirectional(sock)
+handle_connection(connection)
 

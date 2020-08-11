@@ -1,4 +1,23 @@
+from datetime import datetime
 
+
+
+
+def create_banner_date():
+  # datetime object containing current date and time
+  now = datetime.now() 
+  #Date: 29 June 20, Approximately 8:00 PM 
+  return now.strftime("Date: %d %B %y, %I:%M %p")
+
+
+def create_session_banner(session_id): 
+     session_msg = "Session " + str(session_id) 
+
+     print("#" * 40) 
+     print((20 - (round(len(session_msg) / 2))) * " " + session_msg) 
+     print(create_banner_date()) 
+     print() 
+     print("#" * 40) 
 
 
 """
@@ -10,6 +29,14 @@ def print_banner(msg):
   print("#"*40)
   print("#" + (20 - (round(len(msg) / 2))) * " " + msg)
   print("#"*40)
+
+
+
+
+
+
+
+
 
 
 
@@ -50,3 +77,4 @@ def storage_append_to_file(file_name, text):
   with open(file_name, "a") as f:
     f.write(text)
 
+# https://docs.python.org/3/library/datetime.html#module-datetime

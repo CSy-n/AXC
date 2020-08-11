@@ -1,5 +1,5 @@
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
-from common import handle_connection
+from common import handle_server
 from utility import * 
 
 print_banner('SERVER STARTED')
@@ -18,5 +18,5 @@ print("Waiting for client ... ", end='')
 (connection, addr) = server.accept()
 print("Client connected")
 
-handle_connection(connection)
+handle_server(connection)
 

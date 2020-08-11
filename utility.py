@@ -11,15 +11,18 @@ def create_banner_date():
 
 
 def create_session_banner(session_id): 
-     session_msg = "Session " + str(session_id) 
+     session_msg = "Session " + str(session_id)
 
-     print("#" * 40) 
-     print((20 - (round(len(session_msg) / 2))) * " " + session_msg) 
-     print(create_banner_date()) 
-     print() 
-     print("#" * 40) 
+     return "#" * 40 + "\n" +                                              \
+       ((20 - (round(len(session_msg) / 2))) * " " + session_msg) + "\n" + \
+       (create_banner_date()) + "\n" +                                     \
+       "#" * 40  + "\n"
 
 
+def print_session_banner(session_id):
+  print(create_session_banner(session_id))
+
+        
 """
  prints a simple text banner and accounts
 for the message a length, width is 40

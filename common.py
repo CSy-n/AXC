@@ -3,10 +3,14 @@ from time import sleep
 from utility import *
 import os
 
+from menu import *
+
+
 class Receiver(Thread):
-    def __init__(self, socket):
+    def __init__(self, socket, server=False):
         Thread.__init__(self)
         self.setDaemon(True)
+        self.server = server
         self.socket = socket
 
     def run(self):
@@ -20,13 +24,19 @@ class Receiver(Thread):
                 print("<<")
                 print(message)
                 print(">>")
-                store_message(message)
+                #If is server:
+                if self.server:
+                     # Check if (handle_command); check if "!file"
+                    handle_command(message)
+                    store_message(message)
+
+                
 
         except:
             finish()
 
 class Sender(Thread):
-    def __init__(self, socket):
+    def __init__(self, socket, server=False):
         Thread.__init__(self)
         self.setDaemon(True)
         self.socket = socket
@@ -36,7 +46,7 @@ class Sender(Thread):
             while True:
                 print('>> ')
                 s = input()
-                store_message(s)
+
                 sent = self.socket.send(s.encode())
                 if sent == 0:
                     finish()
@@ -44,12 +54,13 @@ class Sender(Thread):
         except:
             finish()
 
+
 def finish():
     print("Connection terminated")
     os._exit(0)
 
-def start_receive_loop(socket):
-    thread = Receiver(socket)
+def start_receiver_loop(socket, server=False):
+    thread = Receiver(socket, server)
     thread.start()
     return thread
 
@@ -59,14 +70,49 @@ def start_send_loop(socket):
     return thread
 
 def handle_connection(socket):
-    receive = start_receive_loop(socket)
+    receiver = start_receiver_loop(socket)
     send = start_send_loop(socket)
-    receive.join()
+    receiver.join()
     send.join()
 
+def handle_server(socket):
+    receiver = start_receiver_loop(socket, True)
+    send = start_send_loop(socket)
+    
+    receiver.join()
+    send.join()
 
-def store_message(text):
-    storage_append_to_file("private/conversation.txt", text)
+def handle_command(msg):
+
+    # Check if Message is *actually* a command!
+    # if it starts with "!"
+    if msg.startswith("!file"):
+        print("[Opening File]")
+        print(dialog_query_file())
+
+class Server:
+
+    def __init__(self, sender, receiver):
+        self.sender = sender
+        self.receiver = receiver
+
+        
+    
+def print_server_diagnostics(server):
+
+    senderThread = server.sender
+    print("#"*40)
+    print()
+    print(f"Thread-Name: {senderThread.getName()}")
+    print(f"Is-Daemon: senderThread.isDaemon()")
+    print(f"Is-Alive: senderThread.is_alive()")
+    print()
+    print("#"*40)
 
     
+
+def store_message(text):
+    path = "private/conversation.txt"
+    storage_append_to_file(path, create_session_banner(0) )
+    storage_append_to_file(path, text)
 

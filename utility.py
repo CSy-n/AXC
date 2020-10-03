@@ -74,7 +74,10 @@ length of sentence.
 """  
 
 
+def print_file_contents(file_path):
 
+  for line in open(file_path):
+    print(line)
 
 def storage_append_to_file(file_name, text):
   with open(file_name, "a") as f:

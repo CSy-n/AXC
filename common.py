@@ -94,10 +94,21 @@ def handle_command(msg):
 class Server:
 
     def __init__(self, sender, receiver):
-        self.sender = sender
-        self.receiver = receiver
+        self.sender = start_send_loop()
+        self.receiver = start_receiver_loop()
 
-        
+    def run(self):
+        try: 
+            while True:
+                print('>> ')
+                s = input()
+
+                sent = self.socket.send(s.encode())
+                if sent == 0:
+                    finish()
+                    return
+        except:
+            finish()        
     
 def print_server_diagnostics(server):
 

@@ -5,7 +5,6 @@ from common import handle_connection
 REMOTE_IP = 'localhost'
 #REMOTE_IP = '180.150.115.162'
 
-
 PORT = 31415
 
 

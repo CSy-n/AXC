@@ -1,4 +1,8 @@
+* About
 
+ - The basic idea is to create a secure means of communication
+ - Allow for interactive scripting and verification of code-execution
+ - Ability to send-files, images, voice-data, open-files. . .
 
 
 
